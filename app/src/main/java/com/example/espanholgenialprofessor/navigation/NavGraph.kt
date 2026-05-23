@@ -14,14 +14,14 @@ fun NavGraph(
 
     NavHost(
         navController = navController,
-        startDestination = "splash"
+        startDestination = Routes.SPLASH
     ) {
 
-        composable("splash") {
+        composable(Routes.SPLASH) {
             SplashScreen(navController = navController)
         }
 
-        composable("login") {
+        composable(Routes.LOGIN) {
             LoginScreen()
         }
     }

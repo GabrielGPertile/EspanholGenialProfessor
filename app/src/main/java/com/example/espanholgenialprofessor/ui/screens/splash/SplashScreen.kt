@@ -7,6 +7,7 @@ import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.example.espanholgenialprofessor.navigation.Routes
 
 @Composable
 fun SplashScreen(
@@ -18,8 +19,8 @@ fun SplashScreen(
 
     LaunchedEffect(isReady) {
         if(isReady) {
-            navController.navigate("login") {
-                popUpTo("splash") { inclusive = true }
+            navController.navigate(Routes.LOGIN) {
+                popUpTo(Routes.SPLASH) { inclusive = true }
             }
         }
     }
