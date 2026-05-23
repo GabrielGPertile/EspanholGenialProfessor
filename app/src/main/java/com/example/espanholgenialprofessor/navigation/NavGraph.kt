@@ -4,6 +4,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.*
+import com.example.espanholgenialprofessor.ui.screens.home.HomeScreen
 import com.example.espanholgenialprofessor.ui.screens.login.LoginScreen
 import com.example.espanholgenialprofessor.ui.screens.splash.SplashScreen
 
@@ -22,7 +23,12 @@ fun NavGraph(
         }
 
         composable(Routes.LOGIN) {
-            LoginScreen()
+            LoginScreen(navController = navController)
+        }
+
+        composable(Routes.HOME)
+        {
+            HomeScreen()
         }
     }
 }
