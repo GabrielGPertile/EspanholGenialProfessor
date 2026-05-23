@@ -6,19 +6,21 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavHostController
 
 @Composable
 fun SplashScreen(
-    viewModel: SplashViewModel = viewModel()
+    viewModel: SplashViewModel = viewModel(),
+    navController: NavHostController
 )
 {
     val isReady by viewModel.isReady.collectAsStateWithLifecycle()
 
-    Text("Splash Screen")
-
     LaunchedEffect(isReady) {
         if(isReady) {
-
+            navController.navigate("login") {
+                popUpTo("splash") { inclusive = true }
+            }
         }
     }
 }
