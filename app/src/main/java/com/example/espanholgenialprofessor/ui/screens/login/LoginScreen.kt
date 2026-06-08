@@ -1,5 +1,6 @@
 package com.example.espanholgenialprofessor.ui.screens.login
 
+import android.R.attr.onClick
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -20,5 +21,13 @@ fun LoginScreen(
         }
     ) {
         Text("Entrar")
+    }
+
+    Button(
+        onClick = {
+            navController.navigate(Routes.REGISTER)
+        }
+    ) {
+        Text("Criar conta")
     }
 }
