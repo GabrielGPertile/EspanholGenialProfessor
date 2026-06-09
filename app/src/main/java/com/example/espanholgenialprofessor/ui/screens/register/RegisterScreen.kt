@@ -11,6 +11,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
 import androidx.navigation.NavHostController
+import com.example.espanholgenialprofessor.navigation.Routes
 
 @Composable
 fun RegisterScreen(
@@ -38,7 +39,12 @@ fun RegisterScreen(
 
         Button(
             onClick = {
-                // depois vamos chamar Firebase aqui
+                viewModel.register {
+                    navController.navigate(Routes.HOME) {
+                        popUpTo(Routes.LOGIN) { inclusive = true }
+                        launchSingleTop = true
+                    }
+                }
             }
         ) {
             Text("Criar conta")
