@@ -27,13 +27,13 @@ fun LoginScreen(
     ) {
 
         TextField(
-            value = viewModel.email,
+            value = viewModel.uiState.email,
             onValueChange = { viewModel.onEmailChange(it) },
             label = { Text("email") }
         )
 
         TextField(
-            value = viewModel.password,
+            value = viewModel.uiState.password,
             onValueChange = { viewModel.onPasswordChange(it) },
             label = { Text("Senha") }
         )

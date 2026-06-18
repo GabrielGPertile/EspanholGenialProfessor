@@ -7,17 +7,14 @@ import androidx.lifecycle.ViewModel
 
 class LoginViewModel : ViewModel() {
 
-    var email by mutableStateOf("")
-        private set
-
-    var password by mutableStateOf("")
+    var uiState by mutableStateOf(LoginUiState())
         private set
 
     fun onEmailChange(value: String) {
-        email = value
+        uiState = uiState.copy(email = value)
     }
 
     fun onPasswordChange(value: String) {
-        password = value
+        uiState = uiState.copy(password = value)
     }
 }
