@@ -1,10 +1,8 @@
 package com.example.espanholgenialprofessor.ui.screens.login
 
-import android.R.attr.onClick
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.magnifier
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -38,15 +36,26 @@ fun LoginScreen(
             label = { Text("Senha") }
         )
 
+        viewModel.uiState.error?.let {
+            Text(text = it)
+        }
+
         Button(
             onClick = {
-                navController.navigate(Routes.HOME) {
-                    popUpTo(Routes.LOGIN) { inclusive = true }
-                    launchSingleTop = true
-                }
-            }
+                viewModel.login(
+                    onSuccess = {
+                        navController.navigate(Routes.HOME) {
+                            popUpTo(Routes.LOGIN) { inclusive = true }
+                            launchSingleTop = true
+                        }
+                    }
+                )
+            },
+            enabled = !viewModel.uiState.isLoading
         ) {
-            Text("Entrar")
+            Text(
+                if(viewModel.uiState.isLoading) "Entrando..." else "Entrar"
+            )
         }
 
         Button(
