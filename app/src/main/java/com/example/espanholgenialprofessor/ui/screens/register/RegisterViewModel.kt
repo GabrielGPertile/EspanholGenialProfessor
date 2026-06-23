@@ -8,39 +8,50 @@ import com.google.firebase.auth.FirebaseAuth
 
 class RegisterViewModel : ViewModel() {
 
-    var email by mutableStateOf("")
-        private set
+    private val firebaseAuth = FirebaseAuth.getInstance()
 
-    var password by mutableStateOf("")
-        private set
-
-    var isLoading by mutableStateOf(false)
-        private set
-
-    var errorMessage by mutableStateOf<String?>(null)
+    var uiState by mutableStateOf(RegisterUiState())
         private set
 
     fun onEmailChange(value: String) {
-        email = value
+        uiState = uiState.copy(email = value)
     }
 
     fun onPasswordChange(value: String) {
-        password = value
+        uiState = uiState.copy(password = value)
     }
 
     fun register(onSuccess: () -> Unit) {
-        isLoading = true
-        errorMessage = null
 
-        FirebaseAuth.getInstance()
-            .createUserWithEmailAndPassword(email, password)
+        if(uiState.email.isBlank() or uiState.password.isBlank()){
+            uiState = uiState.copy(
+                error = "Informe seu email ou senha!"
+            )
+
+            return
+        }
+
+        uiState.copy(
+            isLoading = true,
+            error = null
+        )
+
+        firebaseAuth.createUserWithEmailAndPassword(
+            uiState.email.trim(),
+            uiState.password.trim()
+        )
             .addOnCompleteListener { task ->
-                isLoading = false
+
+                uiState.copy(
+                    isLoading = false
+                )
 
                 if(task.isSuccessful) {
                     onSuccess()
                 } else {
-                    errorMessage = task.exception?.message
+                    uiState = uiState.copy(
+                        error = task.exception?.message
+                    )
                 }
             }
     }

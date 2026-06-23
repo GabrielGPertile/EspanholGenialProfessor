@@ -26,28 +26,37 @@ fun RegisterScreen(
     ) {
 
         TextField(
-            value = viewModel.email,
+            value = viewModel.uiState.email,
             onValueChange = { viewModel.onEmailChange(it) },
             label = { Text("email") }
         )
 
         TextField(
-            value = viewModel.password,
+            value = viewModel.uiState.password,
             onValueChange = { viewModel.onPasswordChange(it) },
             label = { Text("Senha") }
         )
 
+        viewModel.uiState.error?.let {
+            Text(text = it)
+        }
+
         Button(
             onClick = {
-                viewModel.register {
-                    navController.navigate(Routes.HOME) {
-                        popUpTo(Routes.LOGIN) { inclusive = true }
-                        launchSingleTop = true
+                viewModel.register(
+                    onSuccess = {
+                        navController.navigate(Routes.HOME) {
+                            popUpTo(Routes.LOGIN) { inclusive = true }
+                            launchSingleTop = true
+                        }
                     }
-                }
-            }
+                )
+            },
+            enabled = !viewModel.uiState.isLoading
         ) {
-            Text("Criar conta")
+            Text(
+                if(viewModel.uiState.isLoading) "Criando conta..." else "Criar Conta"
+            )
         }
     }
 }
