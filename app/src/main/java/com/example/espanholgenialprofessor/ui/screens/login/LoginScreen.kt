@@ -61,10 +61,7 @@ fun LoginScreen(
 
         TextButton(
             onClick = {
-                navController.navigate(Routes.RESET_PASSWORD) {
-                    popUpTo(Routes.LOGIN) { inclusive = true }
-                    launchSingleTop = true
-                }
+                navController.navigate(Routes.RESET_PASSWORD)
             }
         ) {
             Text("Esqueceu sua senha")

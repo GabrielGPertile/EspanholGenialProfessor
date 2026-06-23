@@ -24,6 +24,10 @@ fun ResetPasswordScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
+        viewModel.errorMessage?.let {
+            Text(text = it)
+        }
+
         TextField(
             value = viewModel.email,
             onValueChange = { viewModel.onEmailChange(it) },
@@ -32,10 +36,14 @@ fun ResetPasswordScreen(
 
         Button(
             onClick = {
-                navController.navigate(Routes.LOGIN) {
-                    popUpTo(Routes.RESET_PASSWORD) { inclusive = true }
-                    launchSingleTop = true
-                }
+                viewModel.sendResetPasswordEmail(
+                    onSuccess = {
+                            navController.navigate(Routes.LOGIN) {
+                            popUpTo(Routes.RESET_PASSWORD) { inclusive = true }
+                            launchSingleTop = true
+                        }
+                    }
+                )
             }
         ) {
             Text("Enviar solicitação")
