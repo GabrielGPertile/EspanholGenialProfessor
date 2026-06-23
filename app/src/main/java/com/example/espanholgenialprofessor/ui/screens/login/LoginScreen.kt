@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -56,6 +57,17 @@ fun LoginScreen(
             Text(
                 if(viewModel.uiState.isLoading) "Entrando..." else "Entrar"
             )
+        }
+
+        TextButton(
+            onClick = {
+                navController.navigate(Routes.RESET_PASSWORD) {
+                    popUpTo(Routes.LOGIN) { inclusive = true }
+                    launchSingleTop = true
+                }
+            }
+        ) {
+            Text("Esqueceu sua senha")
         }
 
         Button(
