@@ -24,15 +24,15 @@ fun ResetPasswordScreen(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
 
-        viewModel.errorMessage?.let {
-            Text(text = it)
-        }
-
         TextField(
-            value = viewModel.email,
+            value = viewModel.uiState.email,
             onValueChange = { viewModel.onEmailChange(it) },
             label = { Text("email") }
         )
+
+        viewModel.uiState.error?.let {
+            Text(text = it)
+        }
 
         Button(
             onClick = {
@@ -44,9 +44,12 @@ fun ResetPasswordScreen(
                         }
                     }
                 )
-            }
+            },
+            enabled = !viewModel.uiState.isLoading
         ) {
-            Text("Enviar solicitação")
+            Text(
+                if(viewModel.uiState.isLoading) "Enviado email..." else "Enviar"
+            )
         }
 
         Button(

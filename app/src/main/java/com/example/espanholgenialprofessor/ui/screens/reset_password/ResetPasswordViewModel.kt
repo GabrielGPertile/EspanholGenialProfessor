@@ -10,35 +10,42 @@ class ResetPasswordViewModel : ViewModel() {
 
     private val firebaseAuth = FirebaseAuth.getInstance()
 
-    var email by mutableStateOf("")
-        private set
-
-    var errorMessage by mutableStateOf<String?>(null)
+    var uiState by mutableStateOf(ResetPasswordUiState())
         private set
 
     fun onEmailChange(value: String) {
-        email = value
+        uiState = uiState.copy(email = value)
     }
 
     fun sendResetPasswordEmail(onSuccess: () -> Unit) {
-
-        errorMessage = null
-
-        if(email.isBlank()) {
-            errorMessage = "Informe um e-mail"
-
+        if(uiState.email.isBlank()) {
+            uiState = uiState.copy(
+                error = "Informe um e-mail"
+            )
             return
         }
 
+        uiState = uiState.copy(
+            isLoading = true,
+            error = null
+        )
+
+
         firebaseAuth.sendPasswordResetEmail(
-            email.trim()
+            uiState.email.trim()
         )
             .addOnCompleteListener { task ->
+
+                uiState = uiState.copy(
+                    isLoading = false
+                )
 
                 if(task.isSuccessful) {
                     onSuccess()
                 } else {
-                    errorMessage = task.exception?.message
+                    uiState = uiState.copy(
+                        error = task.exception?.message
+                    )
                 }
             }
     }
