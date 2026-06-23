@@ -7,6 +7,7 @@ import androidx.navigation.compose.*
 import com.example.espanholgenialprofessor.ui.screens.home.HomeScreen
 import com.example.espanholgenialprofessor.ui.screens.login.LoginScreen
 import com.example.espanholgenialprofessor.ui.screens.register.RegisterScreen
+import com.example.espanholgenialprofessor.ui.screens.reset_password.ResetPasswordScreen
 import com.example.espanholgenialprofessor.ui.screens.splash.SplashScreen
 
 @Composable
@@ -34,6 +35,11 @@ fun NavGraph(
         composable(Routes.HOME)
         {
             HomeScreen()
+        }
+
+        composable(Routes.RESET_PASSWORD)
+        {
+            ResetPasswordScreen(navController = navController)
         }
     }
 }
