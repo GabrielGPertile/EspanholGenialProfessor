@@ -21,6 +21,14 @@ class LoginViewModel : ViewModel() {
     }
 
     fun login(onSuccess: () -> Unit) {
+
+        if(uiState.email.isBlank() || uiState.password.isBlank()) {
+            uiState = uiState.copy(
+                error = "Informe um e-mail e senha"
+            )
+            return
+        }
+
         uiState = uiState.copy(
             isLoading = true,
             error = null
