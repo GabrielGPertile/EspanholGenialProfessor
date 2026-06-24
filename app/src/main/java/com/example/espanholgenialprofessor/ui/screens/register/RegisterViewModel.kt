@@ -21,17 +21,29 @@ class RegisterViewModel : ViewModel() {
         uiState = uiState.copy(password = value)
     }
 
+    fun onConfirmPasswordChange(value: String) {
+        uiState = uiState.copy(confirmPassword = value)
+    }
+
     fun register(onSuccess: () -> Unit) {
 
-        if(uiState.email.isBlank() or uiState.password.isBlank()){
+        if(uiState.email.isBlank() || uiState.password.isBlank() || uiState.confirmPassword.isBlank()){
             uiState = uiState.copy(
-                error = "Informe seu email ou senha!"
+                error = "Email, senha e confirmação de senha são obrigatórios."
             )
 
             return
         }
 
-        uiState.copy(
+        if(uiState.password != uiState.confirmPassword) {
+            uiState = uiState.copy(
+                error = "As senhas não coincidem."
+            )
+
+            return
+        }
+
+        uiState = uiState.copy(
             isLoading = true,
             error = null
         )
@@ -42,7 +54,7 @@ class RegisterViewModel : ViewModel() {
         )
             .addOnCompleteListener { task ->
 
-                uiState.copy(
+                uiState = uiState.copy(
                     isLoading = false
                 )
 

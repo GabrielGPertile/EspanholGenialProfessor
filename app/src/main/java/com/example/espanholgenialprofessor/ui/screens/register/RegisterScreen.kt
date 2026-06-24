@@ -37,6 +37,12 @@ fun RegisterScreen(
             label = { Text("Senha") }
         )
 
+        TextField(
+            value = viewModel.uiState.confirmPassword,
+            onValueChange = { viewModel.onConfirmPasswordChange(it) },
+            label = { Text("Confirmar senha") }
+        )
+
         viewModel.uiState.error?.let {
             Text(text = it)
         }
