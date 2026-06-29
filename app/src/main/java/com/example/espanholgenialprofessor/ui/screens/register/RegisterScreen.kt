@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -12,6 +13,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.navigation.NavHostController
 import com.example.espanholgenialprofessor.navigation.Routes
 
@@ -43,13 +46,21 @@ fun RegisterScreen(
             TextField(
                 value = viewModel.uiState.password,
                 onValueChange = { viewModel.onPasswordChange(it) },
-                label = { Text("Senha") }
+                label = { Text("Senha") },
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password
+                )
             )
 
             TextField(
                 value = viewModel.uiState.confirmPassword,
                 onValueChange = { viewModel.onConfirmPasswordChange(it) },
-                label = { Text("Confirmar senha") }
+                label = { Text("Confirmar senha") },
+                visualTransformation = PasswordVisualTransformation(),
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Password
+                )
             )
 
             viewModel.uiState.error?.let {
