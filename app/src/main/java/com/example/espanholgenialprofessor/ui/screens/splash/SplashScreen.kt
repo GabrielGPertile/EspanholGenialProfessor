@@ -28,7 +28,7 @@ fun SplashScreen(
             }
 
             SplashDestination.HOME -> {
-                navController.navigate(Routes.LOGIN) {
+                navController.navigate(Routes.HOME) {
                     popUpTo(Routes.SPLASH) { inclusive = true }
                 }
             }
