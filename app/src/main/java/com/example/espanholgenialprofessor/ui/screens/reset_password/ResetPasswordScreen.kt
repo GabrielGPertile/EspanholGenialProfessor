@@ -45,7 +45,8 @@ fun ResetPasswordScreen(
                     }
                 )
             },
-            enabled = !viewModel.uiState.isLoading
+            enabled = !viewModel.uiState.isLoading &&
+            viewModel.uiState.email.isNotBlank()
         ) {
             Text(
                 if(viewModel.uiState.isLoading) "Enviado email..." else "Enviar"
