@@ -17,19 +17,21 @@ fun SplashScreen(
 {
     val destination by viewModel.destination.collectAsStateWithLifecycle()
 
-    LaunchedEffect(destination) {
-        when(destination) {
-            SplashDestination.LOADING -> Unit
+    LaunchedEffect(Unit) {
+        viewModel.destination.collect { destination ->
+            when (destination) {
+                SplashDestination.LOADING -> Unit
 
-            SplashDestination.LOGIN -> {
-                navController.navigate(Routes.LOGIN) {
-                    popUpTo(Routes.SPLASH) { inclusive = true }
+                SplashDestination.LOGIN -> {
+                    navController.navigate(Routes.LOGIN) {
+                        popUpTo(Routes.SPLASH) { inclusive = true }
+                    }
                 }
-            }
 
-            SplashDestination.HOME -> {
-                navController.navigate(Routes.HOME) {
-                    popUpTo(Routes.SPLASH) { inclusive = true }
+                SplashDestination.HOME -> {
+                    navController.navigate(Routes.HOME) {
+                        popUpTo(Routes.SPLASH) { inclusive = true }
+                    }
                 }
             }
         }
