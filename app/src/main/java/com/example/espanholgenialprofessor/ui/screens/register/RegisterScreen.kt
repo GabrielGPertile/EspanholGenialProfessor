@@ -21,6 +21,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -208,6 +209,16 @@ fun RegisterScreen(
                 Text(
                     if(viewModel.uiState.isLoading) "Criando conta..." else "Criar Conta"
                 )
+            }
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            TextButton(
+                onClick = {
+                    navController.popBackStack()
+                }
+            ) {
+                Text("Voltar ao login")
             }
         }
     }
