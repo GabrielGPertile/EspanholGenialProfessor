@@ -34,7 +34,7 @@ fun NavGraph(
 
         composable(Routes.HOME)
         {
-            HomeScreen()
+            HomeScreen(navController = navController)
         }
 
         composable(Routes.RESET_PASSWORD)
