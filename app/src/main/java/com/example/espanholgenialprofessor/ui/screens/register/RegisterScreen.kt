@@ -174,7 +174,7 @@ fun RegisterScreen(
                                 Icons.Default.Visibility
                             else
                                 Icons.Default.VisibilityOff,
-                            contentDescription = if (passwordVisible.value)
+                            contentDescription = if (confirmPasswordVisible.value)
                                 "Ocultar senha"
                             else
                                 "Mostrar senha"
