@@ -15,12 +15,22 @@ fun SplashScreen(
     navController: NavHostController
 )
 {
-    val isReady by viewModel.isReady.collectAsStateWithLifecycle()
+    val destination by viewModel.destination.collectAsStateWithLifecycle()
 
-    LaunchedEffect(isReady) {
-        if(isReady) {
-            navController.navigate(Routes.LOGIN) {
-                popUpTo(Routes.SPLASH) { inclusive = true }
+    LaunchedEffect(destination) {
+        when(destination) {
+            SplashDestination.LOADING -> Unit
+
+            SplashDestination.LOGIN -> {
+                navController.navigate(Routes.LOGIN) {
+                    popUpTo(Routes.SPLASH) { inclusive = true }
+                }
+            }
+
+            SplashDestination.HOME -> {
+                navController.navigate(Routes.LOGIN) {
+                    popUpTo(Routes.SPLASH) { inclusive = true }
+                }
             }
         }
     }

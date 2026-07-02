@@ -8,8 +8,9 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class SplashViewModel : ViewModel() {
-    private val _isReady = MutableStateFlow(false)
-    val isReady: StateFlow<Boolean> = _isReady
+    private val _destination = MutableStateFlow(SplashDestination.LOADING)
+
+    val destination: StateFlow<SplashDestination> = _destination
 
     //função que inicializa o delay
     init{
@@ -22,7 +23,7 @@ class SplashViewModel : ViewModel() {
             //Configura delay de 2 segundos
             delay(2000)
 
-            _isReady.value = true
+            _destination.value = SplashDestination.LOGIN
         }
     }
 }
