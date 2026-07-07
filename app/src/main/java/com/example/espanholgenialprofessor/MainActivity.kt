@@ -7,7 +7,9 @@ import androidx.activity.enableEdgeToEdge
 import com.example.espanholgenialprofessor.navigation.NavGraph
 import com.example.espanholgenialprofessor.ui.theme.EspanholGenialProfessorTheme
 import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity()
 {
     override fun onCreate(savedInstanceState: Bundle?) {
