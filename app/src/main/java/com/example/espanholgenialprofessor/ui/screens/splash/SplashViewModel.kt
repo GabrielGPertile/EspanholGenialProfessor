@@ -1,20 +1,24 @@
 package com.example.espanholgenialprofessor.ui.screens.splash
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.espanholgenialprofessor.data.auth.AuthRepository
+import com.example.espanholgenialprofessor.domain.auth.AuthState
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import com.google.firebase.auth.FirebaseAuth
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class SplashViewModel : ViewModel() {
+@HiltViewModel
+class SplashViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) : ViewModel() {
     private val _destination = MutableStateFlow(SplashDestination.LOADING)
 
     val destination: StateFlow<SplashDestination> = _destination
 
-    //função que inicializa o delay
     init{
         startDelay()
     }
@@ -24,15 +28,13 @@ class SplashViewModel : ViewModel() {
         viewModelScope.launch {
             delay(800)
 
-            val user = FirebaseAuth.getInstance().currentUser
-
-            _destination.value = if (user != null) {
-                SplashDestination.HOME
-            } else {
-                SplashDestination.LOGIN
+            authRepository.observeAuthState().collect { state ->
+                _destination.value = when(state) {
+                    AuthState.Authenticated -> SplashDestination.HOME
+                    AuthState.Unauthenticated -> SplashDestination.LOGIN
+                    AuthState.Loading -> SplashDestination.LOADING
+                }
             }
-
-            Log.d("AUTH", FirebaseAuth.getInstance().currentUser?.uid.toString())
         }
     }
 }
