@@ -34,11 +34,12 @@ import androidx.navigation.NavHostController
 import com.example.espanholgenialprofessor.navigation.Routes
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 
 @Composable
 fun LoginScreen(
     navController: NavHostController,
-    viewModel: LoginViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    viewModel: LoginViewModel = hiltViewModel()
 )
 {
     val snackbarHostState = remember { androidx.compose.material3.SnackbarHostState() }

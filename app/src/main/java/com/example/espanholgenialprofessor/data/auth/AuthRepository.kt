@@ -30,6 +30,26 @@ class AuthRepository @Inject constructor() {
         }
     }
 
+    fun login(
+        email : String,
+        password : String,
+        onSuccess : () -> Unit,
+        onError : (String?) -> Unit
+    ) {
+        auth.signInWithEmailAndPassword(
+            email.trim(),
+            password.trim()
+        )
+            .addOnCompleteListener { task ->
+
+                if(task.isSuccessful) {
+                    onSuccess()
+                } else {
+                    onError(task.exception?.message)
+                }
+            }
+    }
+
     fun logout() {
         auth.signOut()
     }
