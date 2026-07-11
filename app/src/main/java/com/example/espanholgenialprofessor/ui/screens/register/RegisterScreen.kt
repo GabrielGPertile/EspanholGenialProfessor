@@ -31,6 +31,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.espanholgenialprofessor.R
 import com.example.espanholgenialprofessor.navigation.Routes
@@ -38,7 +39,7 @@ import com.example.espanholgenialprofessor.navigation.Routes
 @Composable
 fun RegisterScreen(
     navController: NavHostController,
-    viewModel: RegisterViewModel = androidx.lifecycle.viewmodel.compose.viewModel()
+    viewModel: RegisterViewModel = hiltViewModel()
 )
 {
     val snackbarHostState = remember { androidx.compose.material3.SnackbarHostState() }

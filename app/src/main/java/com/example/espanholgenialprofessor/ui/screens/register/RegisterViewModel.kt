@@ -4,12 +4,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
+import com.example.espanholgenialprofessor.data.auth.AuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class RegisterViewModel : ViewModel() {
-
-    private val firebaseAuth = FirebaseAuth.getInstance()
-
+@HiltViewModel
+class RegisterViewModel @Inject constructor(
+    private val authRepository: AuthRepository
+) : ViewModel() {
     var uiState by mutableStateOf(RegisterUiState())
         private set
 
@@ -48,23 +50,22 @@ class RegisterViewModel : ViewModel() {
             error = null
         )
 
-        firebaseAuth.createUserWithEmailAndPassword(
-            uiState.email.trim(),
-            uiState.password.trim()
-        )
-            .addOnCompleteListener { task ->
-
+        authRepository.register(
+            uiState.email,
+            uiState.password,
+            onSuccess = {
                 uiState = uiState.copy(
                     isLoading = false
                 )
 
-                if(task.isSuccessful) {
-                    onSuccess()
-                } else {
-                    uiState = uiState.copy(
-                        error = task.exception?.message
-                    )
-                }
+                onSuccess()
+            },
+            onError = { message ->
+                uiState = uiState.copy(
+                    isLoading = false,
+                    error = message
+                )
             }
+        )
     }
 }
