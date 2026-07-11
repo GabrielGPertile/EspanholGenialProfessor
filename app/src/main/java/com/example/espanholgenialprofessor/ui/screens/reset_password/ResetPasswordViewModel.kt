@@ -4,12 +4,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
-import com.google.firebase.auth.FirebaseAuth
+import com.example.espanholgenialprofessor.data.auth.AuthRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ResetPasswordViewModel : ViewModel() {
-
-    private val firebaseAuth = FirebaseAuth.getInstance()
-
+@HiltViewModel
+class ResetPasswordViewModel @Inject constructor(
+  private val authRepository: AuthRepository
+) : ViewModel() {
     var uiState by mutableStateOf(ResetPasswordUiState())
         private set
 
@@ -30,23 +32,21 @@ class ResetPasswordViewModel : ViewModel() {
             error = null
         )
 
-
-        firebaseAuth.sendPasswordResetEmail(
-            uiState.email.trim()
-        )
-            .addOnCompleteListener { task ->
-
+        authRepository.sendResetPasswordEmail(
+            uiState.email,
+            onSuccess = {
                 uiState = uiState.copy(
                     isLoading = false
                 )
 
-                if(task.isSuccessful) {
-                    onSuccess()
-                } else {
-                    uiState = uiState.copy(
-                        error = task.exception?.message
-                    )
-                }
+                onSuccess()
+            },
+            onError = { message ->
+                uiState = uiState.copy(
+                    isLoading = false,
+                    error = message
+                )
             }
+        )
     }
 }
