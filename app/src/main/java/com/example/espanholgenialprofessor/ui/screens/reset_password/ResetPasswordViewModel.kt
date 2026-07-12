@@ -5,25 +5,33 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import com.example.espanholgenialprofessor.data.auth.AuthRepository
+import com.example.espanholgenialprofessor.domain.auth.AuthValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class ResetPasswordViewModel @Inject constructor(
-  private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val authValidator: AuthValidator
 ) : ViewModel() {
     var uiState by mutableStateOf(ResetPasswordUiState())
         private set
 
     fun onEmailChange(value: String) {
-        uiState = uiState.copy(email = value)
+        uiState = uiState.copy(
+            email = value,
+            error = null
+        )
     }
 
     fun sendResetPasswordEmail(onSuccess: () -> Unit) {
-        if(uiState.email.isBlank()) {
+        val emailError = authValidator.validateEmail(uiState.email)
+
+        if (emailError != null) {
             uiState = uiState.copy(
-                error = "Informe um e-mail"
+                error = emailError
             )
+
             return
         }
 
@@ -36,7 +44,8 @@ class ResetPasswordViewModel @Inject constructor(
             uiState.email,
             onSuccess = {
                 uiState = uiState.copy(
-                    isLoading = false
+                    isLoading = false,
+                    error = null
                 )
 
                 onSuccess()
