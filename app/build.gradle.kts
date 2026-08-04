@@ -67,6 +67,9 @@ dependencies {
     // Firebase (usando BOM para gerenciar versões automaticamente)
     implementation(platform(libs.firebase.bom))
     implementation(libs.firebase.auth.ktx)
+    implementation(libs.firebase.firestore.ktx)
+
+    implementation(libs.kotlinx.coroutines.play.services)
 }
 
 kapt {
