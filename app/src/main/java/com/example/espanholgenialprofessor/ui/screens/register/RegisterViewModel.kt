@@ -4,14 +4,20 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.espanholgenialprofessor.data.auth.AuthRepository
 import com.example.espanholgenialprofessor.domain.auth.AuthValidator
+import com.example.espanholgenialprofessor.domain.user.UserProfile
+import com.example.espanholgenialprofessor.domain.user.UserRepository
+import com.example.espanholgenialprofessor.domain.user.UserRole
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
     private val authRepository: AuthRepository,
+    private val userRepository: UserRepository,
     private val authValidator: AuthValidator
 ) : ViewModel() {
     var uiState by mutableStateOf(RegisterUiState())
@@ -78,13 +84,33 @@ class RegisterViewModel @Inject constructor(
         authRepository.register(
             uiState.email,
             uiState.password,
-            onSuccess = {
-                uiState = uiState.copy(
-                    isLoading = false,
-                    error = null
-                )
+            onSuccess = { uid ->
+                viewModelScope.launch {
+                    val userProfile = UserProfile(
+                        uid = uid,
+                        name = null,
+                        role = UserRole.STUDENT,
+                        photoUrl = null
+                    )
 
-                onSuccess()
+                    val result = userRepository.saveUserProfile(userProfile)
+
+                    result.onSuccess {
+                        uiState = uiState.copy(
+                            isLoading = false,
+                            error = null
+                        )
+
+                        onSuccess()
+                    }
+
+                    result.onFailure { exception ->
+                        uiState = uiState.copy(
+                            isLoading = false,
+                            error = exception.message
+                        )
+                    }
+                }
             },
             onError = { message ->
                 uiState = uiState.copy(
