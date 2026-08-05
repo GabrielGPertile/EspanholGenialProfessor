@@ -7,9 +7,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import javax.inject.Inject
 
-class AuthRepository @Inject constructor() {
-    private val auth = FirebaseAuth.getInstance()
-
+class AuthRepository @Inject constructor(
+    private val auth: FirebaseAuth
+) {
     fun observeAuthState() : Flow<AuthState> = callbackFlow {
         val listener = FirebaseAuth.AuthStateListener { firebaseAuth ->
             val user = firebaseAuth.currentUser
@@ -53,7 +53,7 @@ class AuthRepository @Inject constructor() {
     fun register(
         email: String,
         password: String,
-        onSuccess : () -> Unit,
+        onSuccess : (String) -> Unit,
         onError : (String?) -> Unit
     ) {
         auth.createUserWithEmailAndPassword(
@@ -62,7 +62,13 @@ class AuthRepository @Inject constructor() {
         )
             .addOnCompleteListener { task ->
                 if(task.isSuccessful) {
-                    onSuccess()
+                    val uid = task.result.user?.uid
+
+                    if(uid != null) {
+                        onSuccess(uid)
+                    } else {
+                        onError("UID não encontrado")
+                    }
                 } else {
                     onError(task.exception?.message)
                 }
