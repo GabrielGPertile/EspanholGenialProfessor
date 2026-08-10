@@ -150,7 +150,7 @@ fun LoginScreen(
                 modifier = Modifier.fillMaxWidth(),
                 onClick = {
                     viewModel.login(
-                        onSuccess = {
+                        onSuccess = { userProfile -> 
                             navController.navigate(Routes.HOME) {
                                 popUpTo(Routes.LOGIN) { inclusive = true }
                                 launchSingleTop = true

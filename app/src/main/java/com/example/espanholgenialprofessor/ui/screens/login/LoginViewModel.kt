@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.espanholgenialprofessor.data.auth.AuthRepository
 import com.example.espanholgenialprofessor.domain.auth.AuthValidator
+import com.example.espanholgenialprofessor.domain.user.UserProfile
 import com.example.espanholgenialprofessor.domain.user.UserRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -35,7 +36,7 @@ class LoginViewModel @Inject constructor(
         )
     }
 
-    fun login(onSuccess: () -> Unit) {
+    fun login(onSuccess: (UserProfile) -> Unit) {
         val emailError = authValidator.validateEmail(uiState.email)
 
         if (emailError != null) {
@@ -77,7 +78,7 @@ class LoginViewModel @Inject constructor(
                                 error = null
                             )
 
-                            onSuccess()
+                            onSuccess(userProfile)
                         } else {
                             uiState = uiState.copy(
                                 isLoading = false,
