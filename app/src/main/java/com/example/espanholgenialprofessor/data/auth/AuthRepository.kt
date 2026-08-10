@@ -33,7 +33,7 @@ class AuthRepository @Inject constructor(
     fun login(
         email : String,
         password : String,
-        onSuccess : () -> Unit,
+        onSuccess : (String) -> Unit,
         onError : (String?) -> Unit
     ) {
         auth.signInWithEmailAndPassword(
@@ -43,7 +43,13 @@ class AuthRepository @Inject constructor(
             .addOnCompleteListener { task ->
 
                 if(task.isSuccessful) {
-                    onSuccess()
+                    val uid = task.result.user?.uid
+
+                    if (uid != null) {
+                        onSuccess(uid)
+                    } else {
+                        onError("UID não encontrado")
+                    }
                 } else {
                     onError(task.exception?.message)
                 }
