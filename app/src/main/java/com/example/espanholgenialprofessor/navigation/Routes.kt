@@ -8,4 +8,8 @@ object Routes {
     const val REGISTER = "register"
 
     const val RESET_PASSWORD = "reset_password"
+
+    const val TEACHER = "teacher"
+
+    const val STUDENT = "student"
 }
