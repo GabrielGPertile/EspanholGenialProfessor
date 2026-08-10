@@ -1,7 +1,12 @@
 package com.example.espanholgenialprofessor.ui.screens.home
 
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.example.espanholgenialprofessor.domain.user.UserRole
@@ -21,6 +26,13 @@ fun HomeScreen(
     val userProfile = viewModel.userProfile
 
     if(userProfile == null) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            CircularProgressIndicator()
+        }
+
         return
     }
 
