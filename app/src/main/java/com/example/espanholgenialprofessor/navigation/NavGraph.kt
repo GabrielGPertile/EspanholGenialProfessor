@@ -43,14 +43,5 @@ fun NavGraph(
             ResetPasswordScreen(navController = navController)
         }
 
-        composable(Routes.STUDENT)
-        {
-            HomeStudentScreen(navController = navController)
-        }
-
-        composable(Routes.TEACHER)
-        {
-            HomeTeacherScreen(navController = navController)
-        }
     }
 }

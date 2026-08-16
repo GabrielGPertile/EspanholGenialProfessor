@@ -9,6 +9,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
+import com.example.espanholgenialprofessor.domain.user.UserProfile
 import com.example.espanholgenialprofessor.domain.user.UserRole
 import com.example.espanholgenialprofessor.ui.screens.student.HomeStudentScreen
 import com.example.espanholgenialprofessor.ui.screens.teacher.HomeTeacherScreen
@@ -16,7 +17,7 @@ import com.example.espanholgenialprofessor.ui.screens.teacher.HomeTeacherScreen
 @Composable
 fun HomeScreen(
     viewModel: HomeScreenViewModel = hiltViewModel(),
-    navController: NavHostController
+    navController: NavHostController,
 )
 {
     LaunchedEffect(Unit) {
@@ -39,13 +40,15 @@ fun HomeScreen(
    when(userProfile.role) {
        UserRole.STUDENT -> {
            HomeStudentScreen(
-               navController = navController
+               navController = navController,
+               userProfile = userProfile
            )
        }
 
        UserRole.TEACHER -> {
            HomeTeacherScreen(
-               navController = navController
+               navController = navController,
+               userProfile = userProfile
            )
        }
    }
